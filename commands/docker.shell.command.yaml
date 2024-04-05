@@ -1,0 +1,8 @@
+name: docker:shell
+description: "Log into a specified container as a default user. Example: `make sh php`."
+aliases:
+  - sh
+arguments:
+  required: 1
+command: |
+  docker-compose exec $arg_1 sh

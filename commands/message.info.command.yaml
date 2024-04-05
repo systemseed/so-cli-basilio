@@ -1,0 +1,8 @@
+name: message:info
+description: Output information message.
+aliases:
+  - mi
+arguments:
+  required: 1
+command: |
+  echo "\033[38;5;3m\033[1m$arg_1\033[0m"

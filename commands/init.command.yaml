@@ -1,0 +1,6 @@
+name: init
+description: WIP - Prepare the env variables.
+command: |
+  cd $project_root
+  rm -f .env.generated
+  echo "PHP_TAG_DEV=${PHP_BASE_VERSION}-dev-macos-${PHP_VERSION_TAG}" >> .env.generated

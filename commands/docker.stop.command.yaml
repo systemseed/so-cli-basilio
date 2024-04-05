@@ -1,0 +1,8 @@
+name: docker:stop
+description: Starts development environment.
+aliases:
+  - stop
+command: |
+  cd $project_root
+  so mi "Stopping docker containers..."
+  docker compose stop

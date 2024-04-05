@@ -1,0 +1,10 @@
+name: docker:down
+description: Stops development environment and removes Docker network / containers.
+aliases:
+  - down
+command: |
+  cd $project_root
+  so mi "Shutting down Docker containers..."
+  docker compose down --remove-orphans
+  so mi "Shutting down shared proxy..."
+  docker compose -p systemseed_traefik -f .docker/docker-compose.traefik.yml down

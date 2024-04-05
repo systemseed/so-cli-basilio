@@ -1,0 +1,8 @@
+name: docker:restart
+description: Restart docker containers.
+aliases:
+  - restart
+command: |
+  cd $project_root
+  so down
+  so up
