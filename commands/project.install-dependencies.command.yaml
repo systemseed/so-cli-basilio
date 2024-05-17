@@ -3,6 +3,6 @@ description: Installs third-party dependencies (i.e. for composer or yarn).
 aliases:
   - install-dependencies
 command: |
-  cd $project_root
+  cd $so_project_root
   so mi "Installing external dependencies for the project..."
   docker compose run --rm php composer install

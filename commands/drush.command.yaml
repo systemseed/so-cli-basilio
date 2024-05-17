@@ -1,6 +1,6 @@
 name: drush
 description: "Executes drush command inside of php container. Example: `make drush en devel -- --yes`."
 command: |
-  cd $project_root
-  so mi "Running drush $command ..."
-  docker compose exec php sh -c "drush $command"
+  cd $so_project_root
+  so mi "Running drush $so_command ..."
+  docker compose exec php sh -c "drush $so_command"
