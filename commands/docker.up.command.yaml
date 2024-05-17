@@ -3,7 +3,7 @@ description: Starts development environment.
 aliases:
   - up
 command: |
-  cd $project_root
+  cd $so_project_root
   so mi "Starting shared proxy..."
   docker compose -p systemseed_traefik -f .docker/docker-compose.traefik.yml up -d --no-recreate
   so mi "Starting Docker containers..."

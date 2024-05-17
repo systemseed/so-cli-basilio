@@ -3,6 +3,6 @@ description: Restart docker containers.
 aliases:
   - restart
 command: |
-  cd $project_root
+  cd $so_project_root
   so down
   so up

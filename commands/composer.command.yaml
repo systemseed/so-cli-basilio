@@ -1,6 +1,6 @@
 name: composer
 description: "Executes composer command inside of php container. Example: `make composer require drupal/devel`."
 command: |
-  cd $project_root
-  so mi "Running composer $command ..."
-  docker compose exec php sh -c "composer $command"
+  cd $so_project_root
+  so mi "Running composer $so_command ..."
+  docker compose exec php sh -c "composer $so_command"
