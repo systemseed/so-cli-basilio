@@ -1,6 +1,18 @@
 name: init
-description: WIP - Prepare the env variables.
+description: Prepare environment variables.
 command: |
   cd $so_project_root
   rm -f .env.generated
-  echo "PHP_TAG_DEV=${PHP_BASE_VERSION}-dev-macos-${PHP_VERSION_TAG}" >> .env.generated
+  echo "PHP_TAG=${PHP_BASE_VERSION}-${PHP_VERSION_TAG}" >> .env.generated
+  OS=$(uname)
+  if [ "$OS" = "Darwin" ]; then \
+    echo "PHP_TAG_DEV=${PHP_BASE_VERSION}-dev-macos-${PHP_VERSION_TAG}" >> .env.generated; \
+  else \
+    echo "PHP_TAG_DEV=${PHP_BASE_VERSION}-dev-${PHP_VERSION_TAG}" >> .env.generated; \
+  fi
+  ARCH=$(uname -m)
+  if [ "$ARCH" = "arm64" ]; then \
+    echo "CHROME_IMAGE=${CHROME_IMAGE_ARM}:${CHROME_TAG_ARM}" >> .env.generated; \
+  else \
+    echo "CHROME_IMAGE=${CHROME_IMAGE_DEFAULT}:${CHROME_TAG_DEFAULT}" >> .env.generated; \
+  fi
