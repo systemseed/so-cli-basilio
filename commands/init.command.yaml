@@ -10,9 +10,9 @@ command: |
   # Generate file with docker compose overrides depending
   # on the environment where we execute the Makefile.
   if [ -n "$CIRCLE_BRANCH" ]; then \
-    cp -n .docker/docker-compose.override.circleci.yml .docker/docker-compose.override.yml; \
+    cp -n .docker/compose.override.circleci.yml .docker/compose.override.yml; \
   else \
-    cp -n .docker/docker-compose.override.default.yml .docker/docker-compose.override.yml; \
+    cp -n .docker/compose.override.default.yml .docker/compose.override.yml; \
   fi
   
   # Remove existing generated config.

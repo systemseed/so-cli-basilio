@@ -5,6 +5,6 @@ aliases:
 command: |
   cd $so_project_root
   so mi "Starting shared proxy..."
-  docker compose -p systemseed_traefik -f .docker/docker-compose.traefik.yml up -d --no-recreate
+  docker compose -p systemseed_traefik -f .docker/compose.traefik.yml up -d --no-recreate
   so mi "Starting Docker containers..."
   docker compose up -d --remove-orphans --scale hosting=0 --scale codecept=0
