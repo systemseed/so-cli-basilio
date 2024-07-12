@@ -1,4 +1,4 @@
-name: sync:download:files
+name: sync:download:files-private
 description: Pulls private files from the latest backup on AWS.
 command: | 
   cd $so_project_root
