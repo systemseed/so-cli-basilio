@@ -1,0 +1,9 @@
+name: tests:autocomplete
+description: Makes Codeception code autocomplete in IDE.
+command: | 
+  cd $so_project_root
+  so mi "Copying Codeception codebase in .codecept folder to enable IDE autocomplete..."
+  docker compose up -d codecept
+  rm -rf .codecept
+  docker cp ${PROJECT_NAME}_codecept:/repo/ .codecept
+  rm -rf .codecept/.git

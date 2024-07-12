@@ -1,0 +1,12 @@
+name: tests:prepare
+description: Prepares Codeception & environment for execution of tests.
+command: | 
+  cd $so_project_root
+  so mi "Preparing Codeception framework..."
+  docker compose up -d chrome codecept
+  
+  # When /home/seluser/Downloads Chrome folder is mapped to another directory (using ubuntu),
+  # it has 'drwxr-xr-x' permissions and the owner of the folder is 'root'.
+  # We need to change the permissions to allow Chrome to upload the downloaded files to the directory.
+  docker compose run --rm --user=0:0 chrome bash -c "chmod 777 /home/seluser/Downloads"
+  docker compose run --rm codecept build

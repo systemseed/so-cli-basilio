@@ -1,0 +1,8 @@
+name: theme:generate
+description: Runs npm command for the Drupal theme.
+command: | 
+  cd $so_project_root
+  docker compose run --rm \
+    --volume="$(pwd)/drupal:/drupal:cached" \
+    --workdir="/drupal" \
+    php sh -c "rm -rf web/themes/custom/material_${PROJECT_NAME} && php web/themes/contrib/material_base/generate.php material_${PROJECT_NAME}"

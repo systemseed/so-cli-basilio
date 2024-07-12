@@ -1,0 +1,6 @@
+name: theme:install
+description: Installing npm dependencies for the Drupal theme.
+command: | 
+  cd $so_project_root
+  so mi "Installing theme dependencies..."
+  so theme:npm install

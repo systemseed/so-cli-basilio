@@ -1,0 +1,7 @@
+name: db:drop
+description: Drops the current database on the local environment.
+command: | 
+  cd $so_project_root
+  so mi "Dropping local database..."
+  docker compose exec mariadb sh -c 'mariadb -u ${DB_USER} -p${DB_PASSWORD} -e "DROP DATABASE IF EXISTS ${DB_NAME}; CREATE DATABASE ${DB_NAME};"'
+  so mi "Successfully dropped the local database."

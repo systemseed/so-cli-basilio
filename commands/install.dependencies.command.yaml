@@ -1,0 +1,7 @@
+name: install:dependencies
+description: Installs third-party dependencies (i.e. for composer).
+command: | 
+  cd $so_project_root
+  so mi "Installing external dependencies for the project..."
+  so composer install
+  so theme:install

@@ -1,0 +1,6 @@
+name: build:assets
+description: Builds asserts for the project (i.e. compiles theme scss to css).
+command: | 
+  cd $so_project_root
+  so mi "Building project assets..."
+  so theme:build

@@ -1,0 +1,14 @@
+name: install:prepare-fs
+description: Adds necessary folders & set permissions.
+hide: true
+command: | 
+  cd $so_project_root
+  so mi "Adding folders..."
+  mkdir -p ./drupal/private
+  mkdir -p ./drupal/web/sites/default/files
+  
+  # Give all files & folders in Drupal folder correct permissions.
+  # They are valid for local development. Permissions get changed
+  # for the built images for deployment.
+  so mi "Setting permissions for files & folders..."
+  chmod -R u+rwX,g+rwX,o+rX ./drupal

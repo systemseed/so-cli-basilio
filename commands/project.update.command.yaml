@@ -1,0 +1,9 @@
+name: project:update
+description: Updates the project after pulling changes from git.
+command: | 
+  cd $so_project_root
+  so mi "Installing/updating project dependencies..."
+  so install:dependencies
+  so build:assets
+  so mi "Applying updates..."
+  so drush deploy
