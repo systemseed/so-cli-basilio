@@ -1,8 +1,8 @@
 name: project:install
 description: Installs the project from scratch using latest backups on AWS (without PII).
 command: |
+  set -e
   cd $so_project_root
-  so install:check
   so up
   so install:prepare-fs
   so install:dependencies

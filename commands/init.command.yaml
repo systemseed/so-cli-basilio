@@ -41,3 +41,5 @@ command: |
   echo "S3_DB_BACKUPS_FOLDER=${AWS_S3_DB_BACKUPS_BUCKET}/${PROJECT_NAME}-master-${PROJECT_TYPE}/" >> .env.generated
   echo "S3_PUBLIC_FILES_BACKUPS_FOLDER=${AWS_S3_FILES_BACKUPS_BUCKET}/${PROJECT_NAME}-master-files-public/" >> .env.generated
   echo "S3_PRIVATE_FILES_BACKUPS_FOLDER=${AWS_S3_FILES_BACKUPS_BUCKET}/${PROJECT_NAME}-master-files-private/" >> .env.generated
+  
+  so install:check
