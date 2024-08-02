@@ -1,5 +1,18 @@
 name: project:install
 description: Installs the project from scratch using latest backups on AWS (without PII).
 command: |
+  set -e
   cd $so_project_root
+  so up
+  so install:prepare-fs
   so install:dependencies
+  so build:assets
+  so sync:download
+  so db:import
+  # Replaced 'so project:update' by just 'so drush deploy'
+  so drush deploy
+  so tests:prepare
+  so tests:autocomplete
+  so mi "Make git ignore file permissions on your local environment..."
+  git config core.fileMode false
+  so mi "The site is ready at http://${PROJECT_NAME}.localhost"

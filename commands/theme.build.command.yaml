@@ -1,0 +1,6 @@
+name: theme:build
+description: Builds production ready version of the Drupal theme.
+command: | 
+  cd $so_project_root
+  so mi "Building theme assets..."
+  so theme:npm run build

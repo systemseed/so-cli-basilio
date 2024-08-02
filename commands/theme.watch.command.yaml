@@ -1,0 +1,6 @@
+name: theme:watch
+description: Watches changes and rebuilds local Drupal theme sources.
+command: | 
+  cd $so_project_root
+  so mi "Watching theme changes..."
+  so theme:npm run develop

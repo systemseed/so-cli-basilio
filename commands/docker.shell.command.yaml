@@ -5,4 +5,8 @@ aliases:
 arguments:
   required: 1
 command: |
-  docker-compose exec $so_arg_1 sh
+  if [ -n "$so_arg_1" ]; then \
+    docker compose exec $so_arg_1 sh; \
+  else \
+    docker compose exec php sh; \
+  fi

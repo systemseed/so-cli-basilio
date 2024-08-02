@@ -1,0 +1,7 @@
+name: sync:download
+description: Pulls database & files from backups on AWS. Expected to run it in combination with `so db:import`.
+command: |
+  set -e
+  so install:check
+  so sync:download:db
+  so sync:download:files

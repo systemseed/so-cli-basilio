@@ -1,0 +1,7 @@
+name: db:dump
+description: Makes dump of the local database.
+command: | 
+  cd $so_project_root
+  so mi "Dumping local database..."
+  docker compose exec mariadb sh -c "mariadb-dump -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} | gzip --best --stdout > /backup/${BACKUP_DB_FILE_NAME}"
+  so mi "Successfully dumped the local database to ${BACKUP_DIR}/${BACKUP_DB_FILE_NAME}."

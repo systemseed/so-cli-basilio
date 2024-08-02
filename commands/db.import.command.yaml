@@ -1,0 +1,8 @@
+name: db:import
+description: Imports database dump into the local environment.
+command: | 
+  cd $so_project_root
+  so db:drop
+  so mi "Importing dump from /backup/${BACKUP_DB_FILE_NAME} into the local database..."
+  docker compose exec mariadb sh -c "zcat /backup/${BACKUP_DB_FILE_NAME} | mariadb -A -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME}"
+  so mi "Successfully imported /backup/${BACKUP_DB_FILE_NAME} into the local database."

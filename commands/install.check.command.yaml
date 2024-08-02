@@ -1,0 +1,11 @@
+# Consider renaming to access:check or aws:access-check
+name: install:check
+description: Checks for required environment variables.
+hide: true
+command: |
+  cd $so_project_root
+  so mi "Checking required environment variables..."
+  if [[ -z "$AWS_ACCESS_KEY_ID" || -z "$AWS_SECRET_ACCESS_KEY" ]]; then \
+      so mi "Please set your personal AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY variables in .env.local file. Never commit or share your keys."
+      exit 1
+  fi
