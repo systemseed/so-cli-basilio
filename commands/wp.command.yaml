@@ -1,0 +1,6 @@
+name: wp
+description: "Executes WP CLI command inside of php container. Example: `so wp cache flush`."
+command: |
+  cd $so_project_root
+  so mi "Running wp $so_command ..."
+  docker compose exec php sh -c "wp $so_command"

@@ -1,8 +1,18 @@
 name: sync:download:db
-description: Pulls database backup without PII (personal identifiable information) from AWS.
+description: Pulls database backup from AWS.
+options:
+  - name: full
+    shortcut: f
+    required: false
+    description: Pull database with PII. VERY IMPORTANT to make sure it's used only in case of need. Ensure it's replaced with db without PII after you're done.
 command: | 
   cd $so_project_root
   so mi "Downloading latest database backup from ${S3_DB_BACKUPS_FOLDER} to ${BACKUP_DIR}/${BACKUP_DB_FILE_NAME}..."
-  BACKUP_FILENAME=$(docker compose run --rm hosting aws s3 ls "${S3_DB_BACKUPS_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-without-pii.gzip" | tail -n 1)
+  if [ -n "$full" ]; then \
+    so mi "VERY IMPORTANT! You are downloading database with PII (personal identifiable information)!"; \
+    BACKUP_FILENAME=$(docker compose run --rm hosting aws s3 ls "${S3_DB_BACKUPS_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-full.gzip" | tail -n 1)
+  else \
+    BACKUP_FILENAME=$(docker compose run --rm hosting aws s3 ls "${S3_DB_BACKUPS_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-without-pii.gzip" | tail -n 1)
+  fi
   docker compose run --rm hosting aws s3 cp ${S3_DB_BACKUPS_FOLDER}${BACKUP_FILENAME} /backup/db/${BACKUP_DB_FILE_NAME}
   so mi "Done."
