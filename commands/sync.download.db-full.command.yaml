@@ -1,8 +1,0 @@
-name: sync:download:db-full
-description: Pulls database backup with PII from AWS. VERY IMPORTANT to make sure it's used only in case of need. Ensure it's replaced with db without PII after you're done.
-command: | 
-  cd $so_project_root
-  so mi "Downloading latest database backup from ${S3_DB_BACKUPS_FOLDER} to ${BACKUP_DIR}/${BACKUP_DB_FILE_NAME}..."
-  BACKUP_FILENAME=$(docker compose run --rm hosting aws s3 ls "${S3_DB_BACKUPS_FOLDER}" | sort | tail -n 10 | awk '{print $4}' | grep -w ".*-full.gzip" | tail -n 1)
-  docker compose run --rm hosting aws s3 cp ${S3_DB_BACKUPS_FOLDER}${BACKUP_FILENAME} /backup/db/${BACKUP_DB_FILE_NAME}
-  so mi "Done."

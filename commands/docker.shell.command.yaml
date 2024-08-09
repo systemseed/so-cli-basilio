@@ -1,12 +1,29 @@
 name: docker:shell
-description: "Log into a specified container as a default user. Example: `make sh php`."
+description: "Log into a specified container. Example: `so sh php`."
 aliases:
   - sh
+options:
+  - name: root
+    shortcut: r
+    required: false
+    description: Log in as root user.
 arguments:
   required: 1
 command: |
   if [ -n "$so_arg_1" ]; then \
-    docker compose exec $so_arg_1 sh; \
+    if [ -n "$root" ]; then \
+      so mi "Logging into $so_arg_1 container as a root user..."; \
+      docker compose exec --user=0:0 $so_arg_1 sh; \
+    else \
+      so mi "Logging into $so_arg_1 container as a default user..."; \
+      docker compose exec $so_arg_1 sh; \
+    fi
   else \
-    docker compose exec php sh; \
+    if [ -n "$root" ]; then \
+      so mi "Logging into php container as a root user..."; \
+      docker compose exec --user=0:0 php sh; \
+    else \
+      so mi "Logging into php container as a default user..."; \
+      docker compose exec php sh; \
+    fi
   fi

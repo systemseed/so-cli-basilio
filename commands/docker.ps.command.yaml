@@ -1,0 +1,8 @@
+name: docker:ps
+description: Lists running docker compose containers for the project.
+aliases:
+  - ps
+command: |
+  cd $so_project_root
+  so mi "Listing running Docker containers..."
+  docker compose ps

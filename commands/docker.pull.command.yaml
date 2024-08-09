@@ -1,0 +1,8 @@
+name: docker:pull
+description: Pulls Docker images specified in docker-compose file.
+aliases:
+  - pull
+command: |
+  cd $so_project_root
+  so mi "Pulling Docker images..."
+  docker compose pull

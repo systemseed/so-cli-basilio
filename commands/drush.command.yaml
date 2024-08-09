@@ -1,5 +1,5 @@
 name: drush
-description: "Executes drush command inside of php container. Example: `make drush en devel -- --yes`."
+description: "Executes drush command inside of php container. Example: `so drush en devel --yes`."
 command: |
   cd $so_project_root
   so mi "Running drush $so_command ..."

@@ -1,5 +1,12 @@
 name: project:install
-description: Installs the project from scratch using latest backups on AWS (without PII).
+description: Installs the project from scratch using latest backups on AWS.
+aliases:
+  - pi
+options:
+  - name: full
+    shortcut: f
+    required: false
+    description: Use latest database backup with PII.
 command: |
   set -e
   cd $so_project_root
@@ -7,12 +14,25 @@ command: |
   so install:prepare-fs
   so install:dependencies
   so build:assets
-  so sync:download
+  if [ -n "$full" ]; then \
+    so sync:download:db --full
+    so sync:download:files
+  else \
+    so sync:download
+  fi
   so db:import
   # Replaced 'so project:update' by just 'so drush deploy'
   so drush deploy
+  if [ "$PROJECT_TYPE" = "drupal" ] && [ -n "$full" ]; then \
+    so drush cset domino.settings status_message_display 1 -y; \
+    so drush cset domino.settings status_message_type warning -y; \
+    so drush cset domino.settings status_message_content "You are using database with PII. You need to download the one without PII as soon as possible for security reasons." -y; \
+  fi
   so tests:prepare
   so tests:autocomplete
   so mi "Make git ignore file permissions on your local environment..."
   git config core.fileMode false
+  if [ -n "$full" ]; then \
+    so mi "VERY IMPORTANT! You have installed the project with PII! You need to download the one without PII as soon as possible for security reasons."; \
+  fi
   so mi "The site is ready at http://${PROJECT_NAME}.localhost"

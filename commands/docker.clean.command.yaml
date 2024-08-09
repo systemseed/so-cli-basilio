@@ -1,0 +1,8 @@
+name: docker:clean
+description: Stops development environment and removes Docker volumes (i.e. database volume).
+aliases:
+  - clean
+command: |
+  cd $so_project_root
+  so mi "Removing Docker network, containers and volumes..."
+  docker compose down -v --remove-orphans

@@ -1,0 +1,6 @@
+name: phpunit
+description: "Executes PHPUnit tests."
+command: |
+  cd $so_project_root
+  so mi "Running 'phpunit $so_args'..."
+  docker compose exec --user=www-data php sh -c "vendor/bin/phpunit --testdox --verbose --cache-result-file=/tmp/.phpunit.result.cache --bootstrap=/var/www/html/web/core/tests/bootstrap.php $so_args"
