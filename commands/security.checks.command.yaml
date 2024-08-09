@@ -1,0 +1,6 @@
+name: security:checks
+description: Run security checks for Drupal using Drush and for PHP using Composer.
+command: |
+  cd $so_project_root
+  so mi "Run security checks for Drupal and PHP dependencies..."
+  docker compose run --rm php composer audit

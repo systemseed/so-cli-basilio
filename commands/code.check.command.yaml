@@ -1,0 +1,14 @@
+name: code:check
+aliases:
+  - check
+description: Checks the code for compliance with coding standards.
+command: |
+  cd $so_project_root
+  so mi "Checking code for compliance with coding standards..."
+  docker run --rm \
+    -v "$(pwd)/drupal/web/modules/custom:/app/modules" \
+    -v "$(pwd)/drupal/web/themes/custom:/app/themes" \
+    ${PHPCS_IMAGE}:${PHPCS_TAG} phpcs \
+    -s --colors --standard=Drupal,DrupalPractice \
+    --ignore=node_modules,vendor,dist .
+    docker compose run --rm php vendor/bin/phpstan analyse -c phpstan.neon

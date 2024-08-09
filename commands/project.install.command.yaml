@@ -7,32 +7,66 @@ options:
     shortcut: f
     required: false
     description: Use latest database backup with PII.
+  - name: clean
+    shortcut: c
+    required: false
+    description: Installs a clean version of CMS. Caution! It drops the existing database.
 command: |
   set -e
   cd $so_project_root
   so up
   so install:prepare-fs
-  so install:dependencies
-  so build:assets
   if [ -n "$full" ]; then \
-    so sync:download:db --full
-    so sync:download:files
-  else \
-    so sync:download
-  fi
-  so db:import
-  # Replaced 'so project:update' by just 'so drush deploy'
-  so drush deploy
-  if [ "$PROJECT_TYPE" = "drupal" ] && [ -n "$full" ]; then \
-    so drush cset domino.settings status_message_display 1 -y; \
-    so drush cset domino.settings status_message_type warning -y; \
-    so drush cset domino.settings status_message_content "You are using database with PII. You need to download the one without PII as soon as possible for security reasons." -y; \
-  fi
-  so tests:prepare
-  so tests:autocomplete
-  so mi "Make git ignore file permissions on your local environment..."
-  git config core.fileMode false
-  if [ -n "$full" ]; then \
+    so install:dependencies; \
+    so build:assets; \
+    so sync:download:db --full; \
+    so sync:download:files; \
+    so db:import; \
+    # Replaced 'so project:update' by just 'so drush deploy'; \
+    so drush deploy; \
+    if [ "$PROJECT_TYPE" = "drupal" ]; then \
+      so drush cset domino.settings status_message_display 1 -y; \
+      so drush cset domino.settings status_message_type warning -y; \
+      so drush cset domino.settings status_message_content "You are using database with PII. You need to download the one without PII as soon as possible for security reasons." -y; \
+    fi
+    so tests:prepare; \
+    so tests:autocomplete; \
+    so mi "Make git ignore file permissions on your local environment..."; \
+    git config core.fileMode false; \
     so mi "VERY IMPORTANT! You have installed the project with PII! You need to download the one without PII as soon as possible for security reasons."; \
+  fi
+  if [ -n "$clean" ]; then \
+    so mi "Generating random hash salt..."; \
+    xxd -l32 -c32 -ps /dev/urandom > ./drupal/hash_salt.txt; \
+    so composer install; \
+    so mi "Installing clean Drupal..."; \
+    so drush si minimal --existing-config --site-name=${PROJECT_NAME} --site-mail=dev+${PROJECT_NAME}@systemseed.com --yes; \
+    so mi "Importing existing development configuration..."; \
+    so drush config-import --yes; \
+    so mi "Generating theme..."; \
+    so theme:generate; \
+    so install:dependencies; \
+    so build:assets; \
+    so mi "Installing themes..."; \
+    so drush theme:enable claro; \
+    so drush theme:enable material_${PROJECT_NAME}; \
+    so mi "Installing Domino..."; \
+    so drush en domino --yes; \
+    so mi "Setting default theme..."; \
+    so drush config:set system.theme default material_${PROJECT_NAME} --yes; \
+    so mi "Clearing caches..."; \
+    so drush cr; \
+  fi
+  if [ -z "$full" ] && [ -z "$clean" ]; then \
+    so install:dependencies; \
+    so build:assets; \
+    so sync:download; \
+    so db:import; \
+    # Replaced 'so project:update' by just 'so drush deploy'; \
+    so drush deploy; \
+    so tests:prepare; \
+    so tests:autocomplete; \
+    so mi "Make git ignore file permissions on your local environment..."; \
+    git config core.fileMode false; \
   fi
   so mi "The site is ready at http://${PROJECT_NAME}.localhost"

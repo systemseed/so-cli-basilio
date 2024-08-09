@@ -1,0 +1,13 @@
+name: code:fix
+aliases:
+  - fix
+description: Automatically corrects coding issues where possible.
+command: |
+  cd $so_project_root
+  so mi "Auto-fixing code issues..."
+  docker run --rm \
+    -v "$(pwd)/drupal/web/modules/custom:/app/modules" \
+    -v "$(pwd)/drupal/web/themes/custom:/app/themes" \
+    ${PHPCS_IMAGE}:${PHPCS_TAG} phpcbf \
+    -s --colors --standard=Drupal,DrupalPractice \
+    --ignore=node_modules,vendor,dist .

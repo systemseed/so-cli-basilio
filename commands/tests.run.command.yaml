@@ -1,0 +1,6 @@
+name: tests:run
+description: Runs tests. Example `make test:run` or `so tests:run acceptance`.
+command: | 
+  cd $so_project_root
+  so mi "Running Codeception tests..."
+  docker compose run --rm codecept run $so_args -vvv
