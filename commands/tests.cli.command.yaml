@@ -1,0 +1,6 @@
+name: tests:cli
+description: Logs into Codeception container.
+command: | 
+  cd $so_project_root
+  so mi "Opening CLI inside of Codeception container..."
+  docker compose run --rm --entrypoint bash codecept

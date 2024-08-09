@@ -1,0 +1,6 @@
+name: tests:cleanup
+description: Removes Codeception-generated files.
+command: | 
+  cd $so_project_root
+  so mi "Performing cleanup routines..."
+  docker compose run --rm codecept clean

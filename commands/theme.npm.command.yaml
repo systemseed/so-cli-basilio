@@ -5,4 +5,4 @@ command: |
   docker compose run --rm \
     --volume="$(pwd)/drupal/web/themes:/themes:cached" \
     --workdir="/themes/custom/material_${PROJECT_NAME}" \
-    node npm so_args
+    node npm $so_args

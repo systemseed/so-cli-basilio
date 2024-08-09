@@ -1,5 +1,7 @@
 name: project:update
 description: Updates the project after pulling changes from git.
+aliases:
+  - pu
 command: | 
   cd $so_project_root
   so mi "Installing/updating project dependencies..."

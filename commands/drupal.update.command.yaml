@@ -1,0 +1,6 @@
+name: drupal:update
+description: Updates Drupal core and its dependencies.
+command: |
+  cd $so_project_root
+  so mi "Updating Drupal core and its dependencies to the latest version..."
+  so composer update --with-all-dependencies drupal/core-recommended drupal/core-composer-scaffold

@@ -1,11 +1,24 @@
 name: sync:download:files
 description: Pulls public files from the latest backup on AWS.
+options:
+  - name: private
+    shortcut: p
+    required: false
+    description: Pulls private files from the latest backup on AWS.
 command: | 
   cd $so_project_root
-  so mi "Starting public files download from ${S3_PUBLIC_FILES_BACKUPS_FOLDER} to drupal/web/sites/default/files..."
-  docker compose run --rm hosting aws s3 sync --delete --exclude styles/* --exclude css/* --exclude js/* ${S3_PUBLIC_FILES_BACKUPS_FOLDER} /backup/files/
-  so mi "Changing owner to wodby for web/sites/default/files..."
-  docker compose run --rm php sh -c "sudo chown wodby:wodby -R web/sites/default/files"
-  so mi "Changing owner to wodby for private files..."
-  docker compose run --rm php sh -c "mkdir -p private && sudo chown wodby:wodby -R private"
+  if [ -n "$private" ]; then \
+    cd $so_project_root; \
+    so mi "Starting private files download from ${S3_PRIVATE_FILES_BACKUPS_FOLDER} to drupal/private..."; \
+    docker compose run --rm hosting aws s3 sync --delete ${S3_PRIVATE_FILES_BACKUPS_FOLDER} /backup/files-private/; \
+    so mi "Changing owner to wodby for private files..."; \
+    docker compose run --rm php sh -c "mkdir -p private && sudo chown wodby:wodby -R private"; \
+  else \
+    so mi "Starting public files download from ${S3_PUBLIC_FILES_BACKUPS_FOLDER} to drupal/web/sites/default/files..."; \
+    docker compose run --rm hosting aws s3 sync --delete --exclude styles/* --exclude css/* --exclude js/* ${S3_PUBLIC_FILES_BACKUPS_FOLDER} /backup/files/; \
+    so mi "Changing owner to wodby for web/sites/default/files..."; \
+    docker compose run --rm php sh -c "sudo chown wodby:wodby -R web/sites/default/files"; \
+    so mi "Changing owner to wodby for private files..."; \
+    docker compose run --rm php sh -c "mkdir -p private && sudo chown wodby:wodby -R private"; \
+  fi
   so mi "Done."
